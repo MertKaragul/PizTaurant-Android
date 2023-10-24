@@ -111,6 +111,7 @@ fun RegisterPage(
             description = informationModel?.description ?: "Error, please try again",
             confirm = { Button(onClick =  {
                 if (informationModel?.title?.contains("Success") != null) {
+                    rememberNavHost.popBackStack()
                     rememberNavHost.navigate(ERoute.HOME_PAGE.toString())
                 }
                 showInformation = !showInformation

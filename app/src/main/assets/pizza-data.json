@@ -1,0 +1,277 @@
+[
+    {
+        "id" : 1,
+        "pizzaName" : "Sucuklu pizza",
+        "pizzaIngredients" : "İnce hamur, Mozarella peyniri, kızarmış sucuk, kekik, domates sosu",
+        "pizzaPrice" : 170.0,
+        "image" : "R.drawable.sucuklu_pizza",
+        "status" : true,
+        "discount" : true,
+        "discountPrice" : 160.0,
+        "choosePizzaPastry" : [
+            {
+                "pastryName" : "İnce hamur",
+                "default" : true,
+                "status" : true,
+                "pastryPrice" : 0.0,
+                "pastryIngredients" : "İnce ve hafif çıtır lezzet."
+            },
+            {
+                "pastryName" : "Normal hamur",
+                "default" : false,
+                "status" : true,
+                "pastryPrice" : 4.0,
+                "pastryIngredients" : "Hafif ve kabarık klasik lezzet."
+            }
+        ],
+        "pizzaSize" : [
+            {
+                "pizzaSize" : "Küçük",
+                "status" : true,
+                "default" : true,
+                "price" : 10.0
+            },
+            {
+                "pizzaSize" : "Orta",
+                "status" : true,
+                "default" : false,
+                "price" : 15.0
+            },
+            {
+                "pizzaSize" : "Büyük",
+                "status" : true,
+                "default" : false,
+                "price" : 35.0
+            }
+        ]
+    },
+    {
+        "id" : 2,
+        "pizzaName" : "Mantarlı pizza",
+        "pizzaIngredients" : "Sucuk, sosis, mantar, yeşil biber, mısır, domates, yeşil zeytin, kaşar peyniri",
+        "pizzaPrice" : 130.0,
+        "image" : "R.drawable.mushroom_pizza",
+        "status" : true,
+        "discount" : false,
+        "discountPrice" : 0.0,
+        "choosePizzaPastry" : [
+            {
+                "pastryName" : "İnce hamur",
+                "default" : true,
+                "status" : true,
+                "pastryPrice" : 0.0,
+                "pastryIngredients" : "İnce ve hafif çıtır lezzet."
+            },
+            {
+                "pastryName" : "Normal hamur",
+                "default" : false,
+                "status" : true,
+                "pastryPrice" : 4.0,
+                "pastryIngredients" : "Hafif ve kabarık klasik lezzet."
+            }
+        ],
+        "pizzaSize" : [
+            {
+                "pizzaSize" : "Küçük",
+                "status" : true,
+                "default" : true,
+                "price" : 10.0
+            },
+            {
+                "pizzaSize" : "Orta",
+                "status" : true,
+                "default" : false,
+                "price" : 15.0
+            },
+            {
+                "pizzaSize" : "Büyük",
+                "status" : true,
+                "default" : false,
+                "price" : 35.0
+            }
+        ]
+    },
+    {
+        "id" : 3,
+        "pizzaName" : "Peynirli pizza",
+        "pizzaIngredients" : "Domates sosu, peynir",
+        "pizzaPrice" : 100.0,
+        "image" : "R.drawable.peynirli_pizza",
+        "status" : true,
+        "discount" : false,
+        "discountPrice" : 0.0,
+        "choosePizzaPastry" : [
+            {
+                "pastryName" : "İnce hamur",
+                "default" : true,
+                "status" : true,
+                "pastryPrice" : 0.0,
+                "pastryIngredients" : "İnce ve hafif çıtır lezzet."
+            },
+            {
+                "pastryName" : "Normal hamur",
+                "default" : false,
+                "status" : true,
+                "pastryPrice" : 4.0,
+                "pastryIngredients" : "Hafif ve kabarık klasik lezzet."
+            }
+        ],
+        "pizzaSize" : [
+            {
+                "pizzaSize" : "Küçük",
+                "status" : true,
+                "default" : true,
+                "price" : 10.0
+            },
+            {
+                "pizzaSize" : "Orta",
+                "status" : true,
+                "default" : false,
+                "price" : 15.0
+            },
+            {
+                "pizzaSize" : "Büyük",
+                "status" : true,
+                "default" : false,
+                "price" : 35.0
+            }
+        ]
+    },
+    {
+        "id" : 4,
+        "pizzaName" : "Peperoni pizza",
+        "pizzaIngredients" : "Mozzarella Peyniri, Pepperoni",
+        "pizzaPrice" : 190.0,
+        "status" : true,
+        "image" : "R.drawable.pepperoni_pizza",
+        "discount" : false,
+        "discountPrice" : 0.0,
+        "choosePizzaPastry" : [
+            {
+                "pastryName" : "İnce hamur",
+                "default" : true,
+                "status" : true,
+                "pastryPrice" : 0.0,
+                "pastryIngredients" : "İnce ve hafif çıtır lezzet."
+            },
+            {
+                "pastryName" : "Normal hamur",
+                "default" : false,
+                "status" : true,
+                "pastryPrice" : 4.0,
+                "pastryIngredients" : "Hafif ve kabarık klasik lezzet."
+            }
+        ],
+        "pizzaSize":[
+            {
+                "pizzaSize" : "Küçük",
+                "status" : true,
+                "default" : true,
+                "price" : 10.0
+            },
+            {
+                "pizzaSize" : "Orta",
+                "status" : true,
+                "default" : false,
+                "price" : 15.0
+            },
+            {
+                "pizzaSize" : "Büyük",
+                "status" : true,
+                "default" : false,
+                "price" : 35.0
+            }
+        ]
+    },
+    {
+        "id" : 5,
+        "pizzaName" : "Margarita pizza",
+        "pizzaIngredients" : "Domates, mozarella, fesleğen, zeytinyağı",
+        "image" : "R.drawable.margarita_pizza",
+        "pizzaPrice" : 110.0,
+        "status" : true,
+        "discount" : false,
+        "discountPrice" : 0.0,
+        "choosePizzaPastry" : [
+            {
+                "pastryName" : "İnce hamur",
+                "default" : true,
+                "status" : true,
+                "pastryPrice" : 0.0,
+                "pastryIngredients" : "İnce ve hafif çıtır lezzet."
+            },
+            {
+                "pastryName" : "Normal hamur",
+                "default" : false,
+                "status" : true,
+                "pastryPrice" : 4.0,
+                "pastryIngredients" : "Hafif ve kabarık klasik lezzet."
+            }
+        ],
+        "pizzaSize":[
+            {
+                "pizzaSize" : "Küçük",
+                "status" : true,
+                "default" : true,
+                "price" : 10.0
+            },
+            {
+                "pizzaSize" : "Orta",
+                "status" : true,
+                "default" : false,
+                "price" : 15.0
+            },
+            {
+                "pizzaSize" : "Büyük",
+                "status" : true,
+                "default" : false,
+                "price" : 35.0
+            }
+        ]
+    },{
+        "id" : 6,
+        "pizzaName" : "Karışık pizza",
+        "pizzaIngredients" : "Mozzarella Peyniri, Pepperoni",
+        "image" : "R.drawable.mixed_pizza",
+        "pizzaPrice" : 150.0,
+        "status" : true,
+        "discount" : false,
+        "discountPrice" : 0.0,
+        "choosePizzaPastry" : [
+            {
+                "pastryName" : "İnce hamur",
+                "default" : true,
+                "status" : true,
+                "pastryPrice" : 0.0,
+                "pastryIngredients" : "İnce ve hafif çıtır lezzet."
+            },
+            {
+                "pastryName" : "Normal hamur",
+                "default" : false,
+                "status" : true,
+                "pastryPrice" : 4.0,
+                "pastryIngredients" : "Hafif ve kabarık klasik lezzet."
+            }
+        ],
+        "pizzaSize":[
+            {
+                "pizzaSize" : "Küçük",
+                "status" : true,
+                "default" : true,
+                "price" : 10.0
+            },
+            {
+                "pizzaSize" : "Orta",
+                "status" : true,
+                "default" : false,
+                "price" : 15.0
+            },
+            {
+                "pizzaSize" : "Büyük",
+                "status" : true,
+                "default" : false,
+                "price" : 35.0
+            }
+        ]
+    }
+]

@@ -51,7 +51,8 @@ fun Home(
 
     val user by homeViewModel.user.observeAsState()
     if(user != null){
-        controller.navigate(ERoute.CART_PAGE.toString())
+        controller.popBackStack()
+        controller.navigate(ERoute.PIZZA_MENU_PAGE.toString())
     }
 
     Box(
@@ -86,7 +87,9 @@ fun Home(
             )
 
             Button(
-                onClick = { controller.navigate(ERoute.REGISTER_PAGE.toString()) },
+                onClick = {
+                    controller.navigate(ERoute.REGISTER_PAGE.toString())
+                },
                 modifier = Modifier.width((width * .8).dp)
             ){
                 Text(text = "Continue")

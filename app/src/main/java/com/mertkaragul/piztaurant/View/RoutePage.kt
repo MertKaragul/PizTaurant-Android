@@ -1,19 +1,15 @@
 package com.mertkaragul.piztaurant.View
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mertkaragul.piztaurant.Enum.ERoute
+import com.mertkaragul.piztaurant.View.PizzaDetailPage.PizzaDetailPage
 import com.mertkaragul.piztaurant.ui.theme.PizTaurantTheme
 
 
@@ -31,8 +27,19 @@ fun RoutePage(
             RegisterPage(rememberNavHost)
         }
 
-        composable(ERoute.PIZZA_DETAIL_PAGE.toString()){
+        composable(ERoute.PIZZA_MENU_PAGE.toString()){
+            PizzaMenuPage(rememberNavHost)
+        }
 
+        composable(
+            "${ERoute.PIZZA_DETAIL_PAGE.toString()}/{pizzaModel}",
+            arguments = listOf(navArgument("pizzaModel") { type = NavType.StringType})
+        ){
+            val json = it.arguments?.getString("pizzaModel")
+            PizzaDetailPage(
+                rememberNavHost,
+                json
+            )
         }
 
         composable(ERoute.CART_PAGE.toString()){

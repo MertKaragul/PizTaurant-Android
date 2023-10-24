@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -77,7 +78,6 @@ dependencies {
     /** Navhost **/
     implementation("androidx.navigation:navigation-compose:2.7.4")
 
-
     /** Room database **/
     implementation("androidx.room:room-runtime:2.6.0")
     annotationProcessor("androidx.room:room-compiler:2.6.0")
@@ -86,4 +86,8 @@ dependencies {
 
     /** Viewmodel .observeAsState() **/
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+
+
 }
