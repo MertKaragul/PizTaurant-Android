@@ -28,7 +28,7 @@ fun RoutePage(
         }
 
         composable(ERoute.REGISTER_PAGE.toString()){
-            RegisterPage()
+            RegisterPage(rememberNavHost)
         }
 
         composable(ERoute.PIZZA_DETAIL_PAGE.toString()){
