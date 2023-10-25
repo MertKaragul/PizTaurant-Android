@@ -1,9 +1,9 @@
 package com.mertkaragul.piztaurant.Viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.util.copy
 import com.google.gson.reflect.TypeToken
 import com.mertkaragul.piztaurant.Model.InformationModel.InformationModel
 import com.mertkaragul.piztaurant.Model.NavigationModel.NavigationPizzaModel
@@ -12,6 +12,8 @@ import com.mertkaragul.piztaurant.Model.Pizza.OrderPizzaModel
 import com.mertkaragul.piztaurant.Model.Pizza.PizzaModel
 import com.mertkaragul.piztaurant.Model.Pizza.PizzaSizeElement
 import com.mertkaragul.piztaurant.Service.JsonService.JsonService
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class PizzaDetailPageViewModel : ViewModel() {
@@ -21,8 +23,9 @@ class PizzaDetailPageViewModel : ViewModel() {
 
     private val _defaultPrice = MutableLiveData<Long>(0)
     private val _defaultPizzaSpecials = MutableLiveData<OrderPizzaModel?>(null)
+
     val defaultPrice = _defaultPrice
-    var defaultPizzaSpecials : MutableLiveData<OrderPizzaModel?> = _defaultPizzaSpecials
+    var defaultPizzaSpecials : LiveData<OrderPizzaModel?> = _defaultPizzaSpecials
 
 
     var defaultPizzaSizeList = listOf<PizzaSizeElement>()
@@ -40,11 +43,11 @@ class PizzaDetailPageViewModel : ViewModel() {
 
     fun defaultPizzaSpecial(pizzaModel: PizzaModel?, image : Int?, exception : (InformationModel) -> Unit){
         if (pizzaModel == null || image == null) return exception(InformationModel("Error" , "Setup failed please try again"))
+
         val defaultPrice = if (pizzaModel.discount) pizzaModel.discountPrice else pizzaModel.pizzaPrice
         val defaultPizzaSize = pizzaModel.pizzaSize.find { it.default }
         val defaultPizzaPastry = pizzaModel.choosePizzaPastry.find { it.default }
         _defaultPrice.value = defaultPrice
-
 
         defaultPizzaSizeList = pizzaModel.pizzaSize
         defaultPizzaPastryList = pizzaModel.choosePizzaPastry
@@ -57,11 +60,17 @@ class PizzaDetailPageViewModel : ViewModel() {
         }
     }
 
-    fun updatePizza(orderPizzaModel: ChoosePizzaPastry){
+    fun updatePizzaPastry(orderPizzaModel: ChoosePizzaPastry?){
+        if (orderPizzaModel == null) return
         viewModelScope.launch {
-            _defaultPizzaSpecials.postValue(_defaultPizzaSpecials.value.apply {
-                this?.pizzaPastry = orderPizzaModel
-            })
+            _defaultPizzaSpecials.value?.pizzaPastry = orderPizzaModel
+        }
+    }
+
+    fun updatePizzaSize(orderPizzaModel: PizzaSizeElement?){
+        if (orderPizzaModel == null) return
+        viewModelScope.launch {
+            _defaultPizzaSpecials.value?.pizzaSizeElement = orderPizzaModel
         }
     }
 }

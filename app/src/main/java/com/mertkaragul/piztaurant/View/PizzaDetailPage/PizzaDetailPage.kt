@@ -15,6 +15,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -23,10 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -61,13 +65,7 @@ fun PizzaDetailPage(
     if (pizzaDetailModel == null) {
         navHostController.navigate(ERoute.PIZZA_MENU_PAGE.toString())
     }else{
-        pizzaDetailPageViewModel.defaultPizzaSpecial(pizzaDetailModel.pizzaModel,pizzaDetailModel.image){exception ->
-            information = exception
-            showInformation = true
-        }
-
-        val getDefaultPizzaSpecials by pizzaDetailPageViewModel.defaultPizzaSpecials.observeAsState()
-
+        var getDefaultPizzaSpecials = pizzaDetailPageViewModel.defaultPizzaSpecials.observeAsState()
         var totalPrice = pizzaDetailPageViewModel.defaultPrice.observeAsState()
 
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
@@ -98,7 +96,7 @@ fun PizzaDetailPage(
 
                 PizTDefaultSpacerHeight()
 
-                PizTTextField(it = getDefaultPizzaSpecials?.pizzaPastry?.pastryName ?: "",
+                PizTTextField(it = getDefaultPizzaSpecials.value?.pizzaPastry?.pastryName ?: "",
                     onValueChange = {},
                     placeholder = "Pizza hamuru seç",
                     errorMessage = "",
@@ -111,7 +109,7 @@ fun PizzaDetailPage(
 
                 PizTDefaultSpacerHeight()
 
-                PizTTextField(it = getDefaultPizzaSpecials?.pizzaSizeElement?.pizzaSize ?: "",
+                PizTTextField(it = getDefaultPizzaSpecials.value?.pizzaSizeElement?.pizzaSize ?: "",
                     onValueChange = {},
                     placeholder = "Pizza boyutu seç",
                     errorMessage = "",
@@ -141,15 +139,24 @@ fun PizzaDetailPage(
                     selectablePizzaSize = pizzaDetailPageViewModel.defaultPizzaSizeList,
                     selectPizzaPastry = selectPastry,
                     selectedPastry = { selectedPastry ->
-                        pizzaDetailPageViewModel.updatePizza( selectedPastry )
+                        pizzaDetailPageViewModel.updatePizzaPastry( selectedPastry )
                     },
                     selectedSize =  {
-
+                        pizzaDetailPageViewModel.updatePizzaSize( it )
                     },
                     onDismissReq = {
                         showSelectableFeatures = it
                     }
                 )
+            }
+        }
+
+
+        /** Just one time working **/
+        LaunchedEffect(key1 = Unit){
+            pizzaDetailPageViewModel.defaultPizzaSpecial(pizzaDetailModel.pizzaModel,pizzaDetailModel.image){exception ->
+                information = exception
+                showInformation = true
             }
         }
     }
@@ -167,6 +174,8 @@ fun PizzaDetailPage(
             dismissReq = { showInformation = !showInformation }
         )
     }
+
+
 }
 
 
