@@ -1,29 +1,28 @@
 package com.mertkaragul.piztaurant.View.PizzaDetailPage
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,7 +31,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mertkaragul.piztaurant.Enum.ERoute
-import com.mertkaragul.piztaurant.R
+import com.mertkaragul.piztaurant.Model.InformationModel.InformationModel
+import com.mertkaragul.piztaurant.Model.Pizza.OrderPizzaModel
+import com.mertkaragul.piztaurant.View.Elements.PizTAlertDialog
+import com.mertkaragul.piztaurant.View.Elements.PizTDefaultSpacerHeight
+import com.mertkaragul.piztaurant.View.Elements.PizTTextField
 import com.mertkaragul.piztaurant.Viewmodel.PizzaDetailPageViewModel
 import com.mertkaragul.piztaurant.ui.theme.PizTaurantTheme
 
@@ -43,22 +46,29 @@ fun PizzaDetailPage(
     pizzaDetailPageViewModel: PizzaDetailPageViewModel = viewModel()
 ) {
     if (pizzaDetailJson == null) navHostController.navigate(ERoute.PIZZA_MENU_PAGE.toString())
+
+    var showSelectableFeatures by remember { mutableStateOf(false)  }
+    var selectPastry by remember { mutableStateOf(false)  }
+
+    var information by remember { mutableStateOf(InformationModel("Error" , "Something went wrong please try again"))  }
+    var showInformation by remember {  mutableStateOf(false) }
+
+    val height = LocalConfiguration.current.screenHeightDp
+    val width = LocalConfiguration.current.screenWidthDp
+
+
     val pizzaDetailModel = pizzaDetailPageViewModel.pizzaDetailStringConvertModel(pizzaDetailJson)
     if (pizzaDetailModel == null) {
         navHostController.navigate(ERoute.PIZZA_MENU_PAGE.toString())
     }else{
-        var startPrice = if (pizzaDetailModel.pizzaModel.discount) pizzaDetailModel.pizzaModel.discountPrice else pizzaDetailModel?.pizzaModel?.pizzaPrice
-
-        val orderList = mutableListOf<String>()
-
-        var price by remember{
-            mutableStateOf("${startPrice}₺")
+        pizzaDetailPageViewModel.defaultPizzaSpecial(pizzaDetailModel.pizzaModel,pizzaDetailModel.image){exception ->
+            information = exception
+            showInformation = true
         }
 
+        val getDefaultPizzaSpecials by pizzaDetailPageViewModel.defaultPizzaSpecials.observeAsState()
 
-        val height = LocalConfiguration.current.screenHeightDp
-        val width = LocalConfiguration.current.screenWidthDp
-
+        var totalPrice = pizzaDetailPageViewModel.defaultPrice.observeAsState()
 
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             Column(
@@ -86,15 +96,76 @@ fun PizzaDetailPage(
                     modifier = Modifier.padding(5.dp)
                 )
 
+                PizTDefaultSpacerHeight()
+
+                PizTTextField(it = getDefaultPizzaSpecials?.pizzaPastry?.pastryName ?: "",
+                    onValueChange = {},
+                    placeholder = "Pizza hamuru seç",
+                    errorMessage = "",
+                    enabled = false,
+                    modifier = Modifier.clickable {
+                        selectPastry = true
+                        showSelectableFeatures = !showSelectableFeatures
+                    }
+                )
+
+                PizTDefaultSpacerHeight()
+
+                PizTTextField(it = getDefaultPizzaSpecials?.pizzaSizeElement?.pizzaSize ?: "",
+                    onValueChange = {},
+                    placeholder = "Pizza boyutu seç",
+                    errorMessage = "",
+                    enabled = false,
+                    modifier = Modifier.clickable {
+                        selectPastry = false
+                        showSelectableFeatures = !showSelectableFeatures
+                    }
+                )
             }
 
-            Button(onClick = { /*TODO*/ },
-                modifier = Modifier.fillMaxWidth().height((height * .09).dp),
+            Button(onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height((height * .09).dp),
                 shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
             ) {
-                Text("Sipariş ver : $price")
+                Text("Sipariş ver : ${totalPrice.value}₺")
+            }
+
+            AnimatedVisibility(visible = showSelectableFeatures,
+                enter = slideInVertically { +it },
+                exit = slideOutVertically { it }
+            ) {
+                PizzaSelectionFeatures(
+                    selectablePizzaPastry = pizzaDetailPageViewModel.defaultPizzaPastryList,
+                    selectablePizzaSize = pizzaDetailPageViewModel.defaultPizzaSizeList,
+                    selectPizzaPastry = selectPastry,
+                    selectedPastry = { selectedPastry ->
+                        pizzaDetailPageViewModel.updatePizza( selectedPastry )
+                    },
+                    selectedSize =  {
+
+                    },
+                    onDismissReq = {
+                        showSelectableFeatures = it
+                    }
+                )
             }
         }
+    }
+
+
+
+
+
+    AnimatedVisibility(visible = showInformation) {
+        PizTAlertDialog(
+            title = information.title,
+            description = information.title ,
+            confirm = { Button(onClick = { showInformation = !showInformation }) {Text("Ok")} },
+            dismiss = {  },
+            dismissReq = { showInformation = !showInformation }
+        )
     }
 }
 

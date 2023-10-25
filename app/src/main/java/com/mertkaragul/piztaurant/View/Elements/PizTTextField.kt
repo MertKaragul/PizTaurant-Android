@@ -46,6 +46,14 @@ private fun DEFAULT_TEXT_FIELD_COLORS() = TextFieldDefaults.colors(
     unfocusedLabelColor = MaterialTheme.colorScheme.primary,
     unfocusedTextColor = MaterialTheme.colorScheme.primary,
 
+    disabledIndicatorColor = Color.Transparent,
+    disabledPrefixColor = Color.Transparent,
+    disabledSuffixColor = Color.Transparent,
+    disabledPlaceholderColor = Color.Transparent,
+    disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+    disabledLabelColor = MaterialTheme.colorScheme.primary,
+    disabledTextColor = MaterialTheme.colorScheme.primary,
+
     focusedTextColor = MaterialTheme.colorScheme.primary,
     focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
     focusedIndicatorColor = Color.Transparent,
@@ -72,6 +80,8 @@ fun PizTTextField(
     placeholder : String,
     errorMessage : String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    enabled : Boolean = true,
+    modifier: Modifier = Modifier
 ) {
     var error by remember {
         mutableStateOf(false)
@@ -95,6 +105,8 @@ fun PizTTextField(
                 }
             )
         },
+        enabled = enabled,
+        modifier = modifier,
         keyboardOptions = keyboardOptions,
         textStyle = TextStyle.Companion.Default,
         shape = RoundedCornerShape(10.dp),
@@ -111,6 +123,8 @@ fun PizTPasswordTextField(
     placeholder : String,
     errorMessage : String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    enabled : Boolean = true,
+    modifier: Modifier = Modifier
 ) {
     var error by remember {
         mutableStateOf(false)
@@ -138,6 +152,8 @@ fun PizTPasswordTextField(
                 }
             )
         },
+        enabled = enabled,
+        modifier = modifier,
         visualTransformation = if (visiblePassword) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = keyboardOptions,
         textStyle = TextStyle.Companion.Default,
