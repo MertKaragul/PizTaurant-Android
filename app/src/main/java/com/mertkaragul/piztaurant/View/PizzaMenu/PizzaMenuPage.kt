@@ -1,4 +1,4 @@
-package com.mertkaragul.piztaurant.View
+package com.mertkaragul.piztaurant.View.PizzaMenu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -7,14 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -40,64 +41,32 @@ fun PizzaMenuPage(
     val height = LocalConfiguration.current.screenHeightDp
     val width = LocalConfiguration.current.screenWidthDp
     val context = LocalContext.current
-    pizzaMenuViewModel.getPizza(context)
+    val listState = rememberLazyListState()
 
     val pizzaList = pizzaMenuViewModel.pizzaList.observeAsState()
     val pizzaImageList = pizzaMenuViewModel.pizzaImages.observeAsState()
     
     pizzaList.value?.let {
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            state = listState
         ){
             items(it){ pizzaModel ->
                 val image = pizzaImageList.value?.find { it.pizzaName == pizzaModel.pizzaName }?.pizzaImage ?: R.drawable.ic_launcher_foreground
-                Card(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp)) {
-                    Row{
-                        Image(
-                            painterResource(id = image),
-                            contentDescription = "",
-                            modifier = Modifier.size(((height + width) * .1).dp).padding(10.dp)
-                        )
-
-                        Column(modifier = Modifier.fillMaxWidth().padding(start = 10.dp)) {
-                            Text(
-                                pizzaModel.pizzaName,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontSize = 25.sp
-                            )
-
-                            Text(
-                                text = pizzaModel.pizzaSize.find { it.default }?.pizzaSize ?: "",
-                                color = MaterialTheme.colorScheme.primary,
-                                fontSize = 14.sp
-                            )
-
-                            if (pizzaModel.discount){
-                                PizTDiscountText(
-                                    pizzaModel.pizzaPrice,
-                                    pizzaModel.discountPrice
-                                )
-                            }else{
-                                Text(
-                                    text = "${pizzaModel.pizzaPrice}₺",
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontSize = 14.sp
-                                )
-                            }
-
-                            Button(onClick = {
-                                val navigationJson = pizzaMenuViewModel.pizzaDetailPageJson(pizzaModel, image) ?: ""
-                                rememberNavHost.navigate("${ERoute.PIZZA_DETAIL_PAGE}/$navigationJson")
-                            }, modifier = Modifier.fillMaxWidth() ){
-                                Text("Add")
-                            }
-                        }
-                    }
-                }
+                PizzaMenuItem(
+                    pizzaMenuViewModel,
+                    pizzaModel,
+                    image,
+                    height,
+                    width,
+                    rememberNavHost
+                )
             }
         }
+    }
+
+    LaunchedEffect(key1 = Unit){
+        pizzaMenuViewModel.getPizza(context)
     }
 
 

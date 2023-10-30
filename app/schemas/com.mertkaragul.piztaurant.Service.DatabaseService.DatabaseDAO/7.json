@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "2f38e25a2d8b27b83048e2eedf0cc5ce",
+    "version": 7,
+    "identityHash": "36fa1e7e22b27d0beb0452a9a869c198",
     "entities": [
       {
         "tableName": "UserModel",
@@ -44,12 +44,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "CartModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `orderPizzaModel` TEXT NOT NULL, `totalPrice` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderPizzaModel",
+            "columnName": "orderPizzaModel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalPrice",
+            "columnName": "totalPrice",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uuid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f38e25a2d8b27b83048e2eedf0cc5ce')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '36fa1e7e22b27d0beb0452a9a869c198')"
     ]
   }
 }

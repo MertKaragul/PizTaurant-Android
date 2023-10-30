@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.reflect.TypeToken
-import com.mertkaragul.piztaurant.Model.NavigationModel.NavigationPizzaModel
+import com.mertkaragul.piztaurant.Model.Pizza.PizzaDetailModel
 import com.mertkaragul.piztaurant.Model.Pizza.PizzaImageModel
 import com.mertkaragul.piztaurant.Model.Pizza.PizzaModel
-import com.mertkaragul.piztaurant.R
 import com.mertkaragul.piztaurant.Service.File.File
 import com.mertkaragul.piztaurant.Service.File.File.Companion.PIZZA_FILE_NAME
 import com.mertkaragul.piztaurant.Service.JsonService.JsonService
@@ -21,7 +20,7 @@ class PizzaMenuViewModel : ViewModel() {
     private val jsonService = JsonService()
     private val fileService = File()
     private val typeToken = object : TypeToken<List<PizzaModel>>(){}
-    private val navPizzaToken = object : TypeToken<NavigationPizzaModel>(){}
+    private val navPizzaToken = object : TypeToken<PizzaDetailModel>(){}
     fun getPizza(context : Context){
         val json = fileService.readFileFromAssets(PIZZA_FILE_NAME,context)
         val pizzaList = jsonService.convertJsonToClass(data = json, typeToken)
@@ -43,6 +42,6 @@ class PizzaMenuViewModel : ViewModel() {
     }
 
     fun pizzaDetailPageJson(pizzaModel: PizzaModel , image : Int): String? {
-        return jsonService.convertJson(NavigationPizzaModel(pizzaModel, image))
+        return jsonService.convertJson(PizzaDetailModel(pizzaModel, image))
     }
 }

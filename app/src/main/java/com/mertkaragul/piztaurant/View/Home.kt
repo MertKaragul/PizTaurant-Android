@@ -75,24 +75,33 @@ fun Home(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Welcome to PizTaurant",
+                text = "PizTaurant'a hoşgeldiniz ",
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 25.sp
             )
 
             Text(
-                text = "Delicious pizza is here!",
+                text = "Lezzetli pizzalar burada",
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 15.sp
             )
 
-            Button(
-                onClick = {
-                    controller.navigate(ERoute.REGISTER_PAGE.toString())
-                },
-                modifier = Modifier.width((width * .8).dp)
-            ){
-                Text(text = "Continue")
+            if (user == null){
+                Button(
+                    onClick = {
+                        controller.navigate(ERoute.REGISTER_PAGE.toString())
+                    },
+                    modifier = Modifier.width((width * .8).dp)
+                ){
+                    Text(text = "Devam et")
+                }
+            }else{
+
+                Text(
+                    text = "Az sonra yönlendirileceksiniz.",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    fontSize = 15.sp
+                )
             }
         }
     }

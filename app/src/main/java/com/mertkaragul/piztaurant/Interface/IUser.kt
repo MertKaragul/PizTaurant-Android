@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.mertkaragul.piztaurant.Model.UserModel.UserModel
+import com.mertkaragul.piztaurant.Model.DatabaseModels.UserModel
 
 @Dao
 interface IUser {

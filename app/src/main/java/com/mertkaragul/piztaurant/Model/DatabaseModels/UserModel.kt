@@ -1,4 +1,4 @@
-package com.mertkaragul.piztaurant.Model.UserModel
+package com.mertkaragul.piztaurant.Model.DatabaseModels
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

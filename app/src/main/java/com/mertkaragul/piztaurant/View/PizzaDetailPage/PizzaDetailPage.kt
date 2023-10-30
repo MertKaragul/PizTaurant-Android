@@ -34,7 +34,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mertkaragul.piztaurant.Enum.EInformationStatus
 import com.mertkaragul.piztaurant.Enum.ERoute
+import com.mertkaragul.piztaurant.Model.DatabaseModels.CartModel
 import com.mertkaragul.piztaurant.Model.InformationModel.InformationModel
 import com.mertkaragul.piztaurant.Model.Pizza.OrderPizzaModel
 import com.mertkaragul.piztaurant.View.Elements.PizTAlertDialog
@@ -54,7 +56,7 @@ fun PizzaDetailPage(
     var showSelectableFeatures by remember { mutableStateOf(false)  }
     var selectPastry by remember { mutableStateOf(false)  }
 
-    var information by remember { mutableStateOf(InformationModel("Error" , "Something went wrong please try again"))  }
+    var information by remember { mutableStateOf(InformationModel("Hata" , "Bir şeyler ters gitti lütfen tekrar deneyiniz", EInformationStatus.ERROR))  }
     var showInformation by remember {  mutableStateOf(false) }
 
     val height = LocalConfiguration.current.screenHeightDp
@@ -121,7 +123,14 @@ fun PizzaDetailPage(
                 )
             }
 
-            Button(onClick = { },
+            Button(onClick = {
+                if (totalPrice.value != null){
+                    pizzaDetailPageViewModel.orderPizza( totalPrice.value ?: 0 ){
+                        information = it
+                        showInformation = true
+                    }
+                }
+            },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height((height * .09).dp),
@@ -168,7 +177,7 @@ fun PizzaDetailPage(
     AnimatedVisibility(visible = showInformation) {
         PizTAlertDialog(
             title = information.title,
-            description = information.title ,
+            description = information.description ,
             confirm = { Button(onClick = { showInformation = !showInformation }) {Text("Ok")} },
             dismiss = {  },
             dismissReq = { showInformation = !showInformation }

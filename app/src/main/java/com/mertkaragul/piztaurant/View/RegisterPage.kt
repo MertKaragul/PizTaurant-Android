@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mertkaragul.piztaurant.Enum.EInformationStatus
 import com.mertkaragul.piztaurant.Enum.ERoute
 import com.mertkaragul.piztaurant.Model.InformationModel.InformationModel
 import com.mertkaragul.piztaurant.View.Elements.PizTAlertDialog
@@ -54,7 +55,7 @@ fun RegisterPage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Let's create account",
+            text = "Hadi hesap oluşturalım",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 35.sp
         )
@@ -62,8 +63,8 @@ fun RegisterPage(
         PizTTextField(
             username,
             onValueChange = {username = it},
-            "Username",
-            "Please fill username",
+            "Kullanıcı adı",
+            "Lütfen kullanıcı adınızı girin",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
         PizTDefaultSpacerHeight()
@@ -71,8 +72,8 @@ fun RegisterPage(
         PizTTextField(
             email,
             onValueChange = {email = it},
-            "Email",
-            "Please fill email",
+            "E-mail",
+            "Lütfen email hesabınızı girin",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
         PizTDefaultSpacerHeight()
@@ -80,8 +81,8 @@ fun RegisterPage(
         PizTPasswordTextField(
             password,
             onValueChange = {password = it},
-            "Password",
-            "Please fill password",
+            "Şifre",
+            "Lütfen şifrenizi girin",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         PizTDefaultSpacerHeight()
@@ -93,12 +94,12 @@ fun RegisterPage(
 
         }, modifier = Modifier.width((width * .7).dp),shape = RoundedCornerShape(5.dp) ){
             Text(
-                "Create account"
+                "Hesap oluştur"
             )
         }
         PizTDefaultSpacerHeight()
         Text(
-            text = "You want will see delicious pizza, create account",
+            text = "Lezzetli pizzaları görmek istiyorsan kayıt ol",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 12.sp
         )
@@ -108,15 +109,15 @@ fun RegisterPage(
     AnimatedVisibility(visible = showInformation) {
         PizTAlertDialog(
             title = informationModel?.title ?: "Error" ,
-            description = informationModel?.description ?: "Error, please try again",
+            description = informationModel?.description ?: "Hata, lütfen tekrar deneyin",
             confirm = { Button(onClick =  {
-                if (informationModel?.title?.contains("Success") != null) {
+                if (informationModel?.status == EInformationStatus.SUCCESS) {
                     rememberNavHost.popBackStack()
                     rememberNavHost.navigate(ERoute.HOME_PAGE.toString())
                 }
                 showInformation = !showInformation
             }
-            ) { Text(text = "Ok")} },
+            ) { Text(text = "Tamam")} },
             dismiss = {  },
             dismissReq = { showInformation = !showInformation })
     }

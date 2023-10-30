@@ -7,6 +7,8 @@ import com.mertkaragul.piztaurant.R
 
 class DatabaseSetup {
     fun setupDatabase(context : Context): DatabaseDAO {
-        return Room.databaseBuilder(context, DatabaseDAO::class.java ,name = context.getString(R.string.app_name)).build()
+        return Room.databaseBuilder(context, DatabaseDAO::class.java ,name = context.getString(R.string.app_name))
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

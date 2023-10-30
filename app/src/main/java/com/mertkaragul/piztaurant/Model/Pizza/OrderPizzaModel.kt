@@ -1,5 +1,7 @@
 package com.mertkaragul.piztaurant.Model.Pizza
 
+import androidx.room.Entity
+
 data class OrderPizzaModel(
     var pizzaName : String,
     val pizzaImage : Int,
